@@ -1,0 +1,206 @@
+*{
+    font-family: Arial, Helvetica, sans-serif;
+}
+body{background: rgb(246, 232, 232);
+}
+.section-padding{
+    padding: 10px 0;
+}
+.carousel-item{
+    height: 98vh;
+    min-height: 300px;
+}
+.carousel-caption{
+    bottom: 220px;
+    z-index: 2;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 40px;
+}
+.carousel-caption p{
+    width: 80%;
+    margin: 10px auto;
+    font-size: 18px;
+    line-height: 1.9;
+}
+.carousel-inner::before{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+}
+.navbar-nav a{
+    font-size: 15px;
+    text-transform: uppercase;
+    font-weight: 500;
+     color: rgb(245, 243, 243);
+     opacity: 2;
+}
+.navbar .bg-light .navbar-brand{
+    font-size: 25px;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+.navbar-light .navbar-nav .navbar-link{
+    color: #000;
+}
+.nav-item .nav-link{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    position: relative;
+}
+
+.w-100{
+    height: 100vh;
+}
+.navbar{
+    background-color:rgba(0, 0, 0, 0.4);
+    height: 70px;
+}
+.col .line{
+    background-color: rgb(238, 15, 15) ;
+}
+.col p{
+    font-size: 20px;
+}
+ .col .text-danger{
+    text-transform: uppercase;
+    height: 100px;
+    letter-spacing: 0.2rem;
+    font-size: 25px;
+    margin-top: 10px;
+    width: 100px;
+    margin-bottom: 40px;
+ }
+ 
+ .container h1{
+    font-size: 30px;
+    letter-spacing: 0.2rem;
+    margin-top: 3px;
+ }
+ .col{
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    border-color: rgb(240, 114, 114);
+ }
+ .col .list{
+    display: flex;
+ }
+.col .list li{
+    list-style: none;
+    margin-left: -5%;
+    margin-right: 7px;
+    color: rgb(224, 78, 78);
+    font-size: 25px;
+}
+ .col h3{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 5px;
+ }
+ .col-12 .text-danger{
+    font-size: 30px;
+    letter-spacing: 0.2rem;
+ }
+ .col-12 p{
+    font-size: 20px;
+ }
+ .section{
+    background-color: #fff;
+    height: 35vh;
+ }
+.row .col-6-xs{
+    border: 2px solid #333;
+    height: 10vh;
+    margin-top: 10px;
+}
+.parse .text{
+    color: rgb(0, 251, 255);
+    font-weight: 800;
+    font-size: 30px;
+}
+.col-6-xs{
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+.col-8{
+    border: 2px solid #000;
+    border-radius: 15px;
+    margin-top: 4px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+.col-9 p{
+    width: 80%;
+    border-left: 2px solid rgb(233, 45, 45) ;
+    padding: 10px 15px;
+    background-color: rgb(253, 248, 248);
+}
+.row .line{
+    background-color: rgb(238, 15, 15) ;
+}
+.select{
+    background-color: #fff;
+    height: 110vh;
+    margin-top: -15px;
+}
+.card:hover{
+    transform: scale(1.03);
+    transition: all 0.4s ease-out;
+    margin-top: -5px;
+}
+@media only screen and (min-width: 760px) and (max-width: 991px){
+    .carousel-caption{
+        bottom: 370px;
+    }
+    .carousel-caption p{
+        width: 100%;
+    }
+}
+@media only screen and (max-width: 767px){
+    .navbar-nav{
+        text-align: center;
+    }
+    .carousel-caption{
+        bottom: 125px;
+    }
+    .carousel-caption h5{
+        padding: 10px 15px;
+        font-size: 13px;
+    }
+    .carousel-caption a{
+        padding: 10px 15px;
+    }
+    .carousel-caption p{
+        width: 100%;
+        line-height: 1.6;
+        font-size: 12px;
+    }
+    .section{
+        background-color: #fff;
+        height: 60vh;
+     }
+     .col-9 p{
+        width: 95%;
+        border-left: 2px solid rgb(233, 45, 45) ;
+        padding: 10px 15px;
+        background-color: rgb(253, 248, 248);
+    }
+    .col .card{
+        margin-left: 50px;
+    }
+    .select{
+        margin-top: 130px;
+        height: 310vh;
+    }
+}
+
