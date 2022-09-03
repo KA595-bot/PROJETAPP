@@ -1,0 +1,90 @@
+<?php
+session_start();
+
+try{
+   $dbd = new PDO('mysql:host=localhost;dbname=administrateur;charset=utf8', 'root', '');
+}
+catch(Exception $e){
+   die('Erreur'.$e->getMessage());
+}
+if(isset($_POST['submit'])){
+   $email = htmlspecialchars($_POST['email']);
+   $password = sha1($_POST['password']);
+
+     if(!empty($email) AND !empty($password)){
+         $requser = $dbd->prepare('SELECT * FROM admin WHERE email = ? AND password = ? ');
+         $requser->execute(array($email, $password));
+         $userexist = $requser->rowCount();
+
+            if($userexist == 1){
+              $userInfo = $requser->fetch();
+              $_SESSION['id'] = $userInfo['id'];
+              $_SESSION['pseudo'] = $userInfo['pseudo'];
+              $_SESSION['email'] = $userInfo['email'];
+              header("Location: dashboard.php?id=".$_SESSION['id']);
+
+            }else{
+               $erreur = "Mauvais email ou mot de passe !!!";
+            }
+     }else{
+      $erreur = "Tous les champs doivent etre remplis!!!";
+     }
+     
+}
+
+
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="vendor/css/bootstrap.min.css">
+    <script src="vendor/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/jquery-te-1.4.0.min.js"></script>
+    <link rel="stylesheet" href="connexion.css">
+    <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+    <script src="vendor/fontawesome/js/all.min.js"></script>
+    <title>Connexion</title>
+</head>
+<body>
+ 
+  <div class="container">
+      <div class="row content">
+         <div class="col-md-6 mb-3">
+            <img src="images/admin2.jpg" class="img-fluid"alt="image"style="height:120%;">
+         </div>
+         <div class="col-md-6">
+            <h3 class="signin-text mb-3">Connexion</h3>
+
+            <form action="" method="POST">
+               <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="email" name="email" id="email"class="form-control"value="<?php if(isset($email)){ echo $email; }  ?>">
+               </div>
+               <div class="form-group">
+                  <label for="password">Mot de passe</label>
+                  <input type="password" name="password" id="password"class="form-control"value="<?php if(isset($password)){ echo $password; }  ?>">
+               </div>
+               <div class="form-group form-check">
+                  <input type="checkbox" name="checkbox" id="checkbox" class="form-check-input mt-3"
+                  id="checkbox">
+                  <label class="form-check-label "for="checkbox">Rappelez moi!!</label>
+               </div>
+   
+               <button class="btn btn-class"name="submit"type="submit">Connexion</button> <buttton class="btn btn-success"> <a href="accueil.php" class="text-decoration-none text-white">Retour </a></buttton><br>
+             <?php
+               if(isset($erreur)){
+                  echo '<font color="red">'.$erreur."</font>";
+               }
+
+            ?>
+            </form>
+         </div>
+      </div>
+  </div>
+    
+</body>
+</html>

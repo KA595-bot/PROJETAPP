@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
     <script src="vendor/fontawesome/js/all.min.js"></script>
+    <script src="jquery.js"></script>
     <title>Accueil</title>
 </head>
 <body>
@@ -41,13 +42,13 @@
       <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <img src="images/technology5.jpg" class="d-block w-100" alt="...">
+            <img src="images/technology7.jpg" class="d-block w-100" alt="...">
              <div class="carousel-caption ">
               <p class="parse"><span class="text">C</span>entre de <span class="text">f</span>ormation <span class="text">p</span>rofessionnelle la
               <br><span class="text">C</span>anadienne</p>
                 <h5>Nous avons la formation qu'il vous faut.... <br></h5>
                 <p>Faites la difference</p><br>
-                <p><a href="#" class="btn btn-danger mt3">Administrateur</a></p>
+                <p><a href="connexion.php" class="btn btn-danger mt3">Administrateur</a></p>
              </div>
           </div>
           

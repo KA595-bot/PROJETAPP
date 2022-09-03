@@ -1,0 +1,49 @@
+*,::after,::before{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+ min-height: 100vh;
+ background-color: #fff;
+}
+.navbar{
+    width: 250px;
+    height: 100vh;
+    background-color: rgb(233, 45, 45);
+    position: fixed;
+    transition: 0.4s;
+    margin-left: -300px;
+}
+.nav-link {
+    font-size: 1.25rem;
+    margin: 20px 10px;
+}
+ 
+ .navbar-brand{
+    border-bottom: 1px solid #fff;
+ }
+.nav-link:active,
+.nav-link:focus,
+.nav-link:hover{
+    background-color: #ffffff26;
+}
+.my-container{
+    transition: 0.4s;
+    margin-top: -600px;
+    height: 100vh;
+    position: fixed;
+}
+.active-nav{
+    margin-left: 0;
+}
+.active-cont{
+    margin-left: 250px;
+}
+#menu-btn{
+    background-color: rgb(233, 45, 45);
+    color: #fff;
+}
+#menu-btn:focus{
+    box-shadow: 0 0 0 0.25rem rgb(145, 76, 76);
+}

@@ -1,0 +1,58 @@
+*,::after,::before{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color: rgb(233, 45, 45);
+}
+.content{
+    margin: 8%;
+    background-color: #fff;
+    padding: 4rem 1rem 4rem 1rem;
+    box-shadow: 0 0 5px rgba(0,0,0 .05);
+    border-radius: 8px;
+}
+.signin-text{
+    font-style: normal;
+    font-weight: 600 !important;
+}
+.form-control{
+    display: block;
+    width: 100%;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    border-color: rgb(45, 233, 214);
+    border-style: solid !important;
+    border-width: 0 0 1px 0 !important;
+    padding: 0px !important;
+    color: #574949;
+    height: auto;
+    border-radius: 0;
+    background-color: #fff;
+    background-clip: padding-box;
+    margin-top: 10px;
+}
+.form-group label{
+    margin-top: 10px;
+}
+.form-control:focus{
+    color: #495557 ;
+    background-color: #fff;
+    outline: 0;
+    box-shadow: none;
+}
+
+.btn{
+    margin-top: 10px;
+}
+.btn-class{
+    border-color: rgb(233, 45, 45);
+    color: rgb(233, 45, 45);
+}
+.btn-class:hover{
+    background-color: rgb(233, 45, 45);
+    color: #fff;
+}
