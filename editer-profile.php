@@ -2,6 +2,36 @@
 session_start();
 require 'database.php';
 
+   if(isset($_SESSION['id'])){
+    $requser = $dbd->prepare("SELECT * FROM administrateur WHERE id = ?");
+    $requser->execute(array($_SESSION['id']));
+    $user = $requser->fetch();
+
+    if(isset($_POST['newpseudo']) && !empty($_POST['newpseudo']) && $_POST['newpseudo'] != $user['pseudo']){
+        $newpseudo = htmlspecialchars($_POST['newpseudo']);
+        $insertpseudo = $dbd->prepare("UPDATE administrateur SET pseudo = ? WHERE id = ?");
+        $insertpseudo->execute(array($newpseudo, $_SESSION['id']));
+        header('Location: dashboard.php?id='.$_SESSION['id']);
+    }
+
+        if(isset($_POST['newmail']) && !empty($_POST['newmail']) && $_POST['newmail'] != $user['email']){
+            $newmail = htmlspecialchars($_POST['newmail']);
+            $insertmail = $dbd->prepare("UPDATE administrateur SET email = ? WHERE id = ?");
+            $insertmail->execute(array($newmail, $_SESSION['id']));
+            header('Location: dashboard.php?id='.$_SESSION['id']);
+        }
+
+        if(isset($_POST['newmdp1']) && !empty($_POST['newmdp2']) && isset($_POST['newmdp2']) && !empty($_POST['newmdp2'])){
+            $newmdp1 = sha1($_POST['newmdp1']);
+            $newmdp2 = sha1($_POST['newmdp2']);
+                if($newmdp1 == $newmdp2){
+                $insertmdp = $dbd->prepare("UPDATE administrateur SET mdp = ? WHERE id = ?");
+                $insertmdp->execute(array($newmdp1, $_SESSION['id']));
+                header('Location: dashboard.php?id='.$_SESSION['id']);
+        }else{
+            $msg = "les mots de passes doivent etre identiques!!";
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,10 +43,11 @@ require 'database.php';
     <script src="vendor/js/bootstrap.bundle.min.js"></script>
     <script src="vendor/jquery-te-1.4.0.min.js"></script>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="connexion.css">
     <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
     <script src="vendor/fontawesome/js/all.min.js"></script>
     <script src="jquery.js"></script>
-    <title>Dashboard</title>
+    <title>Editer profil</title>
 </head>
 <body>
    <div class="vertical-nav bg-white" id="sidebar">
@@ -34,7 +65,7 @@ require 'database.php';
 
        <ul class="nav flex-column bg-white mb-0">
         <li class="nav-item">
-            <a href="#" class="nav-link text-dark bg-light">
+            <a href="connexion.php" class="nav-link text-dark bg-light">
                 <i class="fa fa-tachometer mr-3 text-primary fa-fw"></i>
                 Dashboard
             </a>
@@ -72,7 +103,7 @@ require 'database.php';
         
         <ul class="nav flex-column bg-white mb-0">
             <li class="nav-item">
-                <a href="editer-profile.php" class="nav-link text-dark">
+                <a href="#" class="nav-link text-dark">
                     <i class="fa-solid fa-user-pen mr-3 text-primary fa-fw"></i>
                     Editer profile
                 </a>
@@ -80,7 +111,7 @@ require 'database.php';
             <li class="nav-item">
                 <a href="#" class="nav-link text-dark">
                     <i class="fa-sharp fa-solid fa-address-card mr-3 text-primary fa-fw"></i>
-                    Profil admin
+                    Modifier
                 </a>
             </li>
             <li class="nav-item">
@@ -98,103 +129,64 @@ require 'database.php';
             </li>
         </ul>
 
-   </div>
-
-   
+   </div>  
    <!-- page content -->
    <div class="page-content p-5"id="content">
         
         <button id="sidebarCollapse"type="button" class="btn btn-light bg-white rounded-pill shadow-sm px-4 mb-4">
             <i class="fa fa-bars mr-2"></i><small class="text-uppercase fw-bold mx-2">Menu</small>
         </button>
-        <?php
-           if(isset($_GET['id']) && $_GET['id'] > 0){
- 
-            $getid = intval($_GET['id']);
-            $requser = $dbd->prepare("SELECT *FROM administrateur WHERE id= ?");
-            $requser->execute(array($getid));
-            $userinfo = $requser->fetch();
-           ?>
-          
-          <?php
+        
+        <div class="container bg-light">
+      <div class="row content">
+      <?php
+               if(isset($msg)){
                   ?>
                   <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                     <strong>BIENVENU  <?= $userinfo['pseudo']; ?></strong>
+                     <strong><?= $msg;  ?></strong>
                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                   </div>
                   <?php
+                 
+               }
 
+            ?>
+         <div class="col-md-6 mb-3">
+            <img src="images/admin2.jpg" class="img-fluid"alt="image"style="height:110%;">
+         </div>
+         <div class="col-md-6">
+            <h3 class="signin-text mb-3">Edition du profil</h3>
 
-        ?>
-       
-          <section class="container py-5">
-            <div class="row">
-                <div class="col-lg-8 col-sm mb-5 mx-auto">
-                    <h1 class="fs-4 text-center lead text-info fw-bold"> GESTION PAIE DE LA SCOLARITE(GPS)</h1>
-                </div>
-            </div>
-            <div class="dropdown-divider border-danger"></div>
-            <div class="row">
-                <div class="col-md-6">
-                    <h5 class="fw-bold mb-0">liste des etudiants</h5>
-                </div>
-                <div class="col-md-6">
-                    <div class="d-flex justify-content-end">
-                        <buttton class="btn btn-primary btn-sm me-3"><i class="fas fa-folder-plus"></i> Nouveau</buttton>
-                        <a href="#" class="btn btn-success btn-sm"id="export"><i class="fas fa-table"></i> Exporter</a>
-                    </div>
-                </div>
-            </div>
-            <div class="dropdown-divider border-danger"></div>
-            <div class="row">
-                <div class="table-responsive" id="orderTable">
-                <table class="table table-striped">
-                        <thead>
-                            <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Matricule</th>
-                            <th scope="col">Nom</th>
-                            <th scope="col">DateNaissance</th>
-                            <th scope="col">NumeroTel</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Sexe</th>
-                            <th scope="col">Montant</th>
-                            <th scope="col">R.a payer</th>
-                            <th scope="col">Statut</th>
-                            <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php for($i = 1; $i < 80; $i++):  ?>
-                            <tr>
-                            <th scope="row"><?= $i ?></th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                            <td>
-                                <a href="#" class="text-info me-2 infoBtn"title="Voir details"><i class="fas fa-info-circle"></i></a>
-                                <a href="#" class="text-primary me-2 editBtn"title="Modifier"><i class="fas fa-edit"></i></a>
-                                <a href="#" class="text-danger me-2 deleteBtn"title="Supprimer"><i class="fas fa-trash-alt"></i></a>
-                            </td>
-                            </tr>
-                            <?php endfor; ?>
-                        </tbody>
-                        </table>
-                </div>
-            </div>
-          </section>
-   </div>
-
- 
+            <form action="#" method="POST">
+               <div class="form-group">
+                  <label for="email">Pseudo</label>
+                  <input type="text" name="newpseudo" id="mailconnect"class="form-control"value="<?php echo $user['pseudo']; ?>">
+               </div>
+               <div class="form-group">
+                  <label for="password">Email</label>
+                  <input type="email" name="newmail" id="mdpconnect"class="form-control"value="<?php echo $user['email']; ?>">
+               </div>
+               <div class="form-group">
+                  <label for="password">Mot de passe </label>
+                  <input type="password" name="newmdp1" id="mdpconnect"class="form-control"value="<?php ?>">
+               </div>
+               <div class="form-group">
+                  <label for="password">Confirmation mot de passe</label>
+                  <input type="password" name="newmdp2" id="mdpconnect"class="form-control"value="<?php ?>">
+               </div>
+               <button class="btn btn-class"name="formupdate"type="submit">Mettre a jour mon profil</button> <buttton class="btn btn-success"> <a href="connexion.php" class="text-decoration-none text-white">Retour </a></buttton><br>
+             
+            </form>
+         </div>
+      </div>
+  </div>    
+    
+    </div>    
    <script src="dash.js"></script>
 </body>
 </html>
 <?php
-}
+   }else{
+    header('Location: connexion.php');
+   }
 ?>

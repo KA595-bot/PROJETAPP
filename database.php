@@ -1,7 +1,6 @@
 <?php
-session_start();
 try{
-    $dbd = new PDO('mysql:host=localhost;dbname=administrateur;charset=utf8', 'root', '');
+    $dbd = new PDO('mysql:host=127.0.0.1;dbname=administration;charset=utf8', 'root', '');
 }
 catch(Exception $e){
     die('Erreur'.$e->getMessage());

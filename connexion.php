@@ -1,39 +1,28 @@
 <?php
 session_start();
-
-try{
-   $dbd = new PDO('mysql:host=localhost;dbname=administrateur;charset=utf8', 'root', '');
-}
-catch(Exception $e){
-   die('Erreur'.$e->getMessage());
-}
-if(isset($_POST['submit'])){
-   $email = htmlspecialchars($_POST['email']);
-   $password = sha1($_POST['password']);
-
-     if(!empty($email) AND !empty($password)){
-         $requser = $dbd->prepare('SELECT * FROM admin WHERE email = ? AND password = ? ');
-         $requser->execute(array($email, $password));
-         $userexist = $requser->rowCount();
-
-            if($userexist == 1){
-              $userInfo = $requser->fetch();
-              $_SESSION['id'] = $userInfo['id'];
-              $_SESSION['pseudo'] = $userInfo['pseudo'];
-              $_SESSION['email'] = $userInfo['email'];
-              header("Location: dashboard.php?id=".$_SESSION['id']);
-
-            }else{
-               $erreur = "Mauvais email ou mot de passe !!!";
-            }
+require 'database.php';
+if(isset($_POST['formconnect'])){
+   $mailconnect = htmlspecialchars($_POST['mailconnect']);
+   $mdpconnect = sha1($_POST['mdpconnect']);
+     if(!empty($mailconnect) && !empty($mdpconnect)){
+           $requser = $dbd->prepare("SELECT * FROM administrateur WHERE email= ? AND mdp= ?");
+           $requser->execute(array($mailconnect, $mdpconnect));
+           $userexist = $requser->rowCount();
+           if($userexist == 1){
+                $userinfo = $requser->fetch();
+                $_SESSION['id'] = $userinfo['id'];
+                $_SESSION['pseudo'] = $userinfo['pseudo'];
+                $_SESSION['mail'] = $userinfo['mail'];
+                header('Location: dashboard.php?id='.$_SESSION['id']);
+           }else{
+            $erreur = "Mauvais email ou mot de passe !!";
+           }
      }else{
-      $erreur = "Tous les champs doivent etre remplis!!!";
+      $erreur = "Tous les champs doivent etre remplis";
      }
-     
 }
 
-
-
+ 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,34 +42,35 @@ if(isset($_POST['submit'])){
  
   <div class="container">
       <div class="row content">
+      <?php
+               if(isset($erreur)){
+                  ?>
+                  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                     <strong><?= $erreur;  ?></strong>
+                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                  <?php
+                 
+               }
+
+            ?>
          <div class="col-md-6 mb-3">
             <img src="images/admin2.jpg" class="img-fluid"alt="image"style="height:120%;">
          </div>
          <div class="col-md-6">
             <h3 class="signin-text mb-3">Connexion</h3>
 
-            <form action="" method="POST">
+            <form action="#" method="POST">
                <div class="form-group">
                   <label for="email">Email</label>
-                  <input type="email" name="email" id="email"class="form-control"value="<?php if(isset($email)){ echo $email; }  ?>">
+                  <input type="email" name="mailconnect" id="mailconnect"class="form-control"value="<?php if(isset($mailconnect)){ echo $mailconnect; }  ?>">
                </div>
                <div class="form-group">
                   <label for="password">Mot de passe</label>
-                  <input type="password" name="password" id="password"class="form-control"value="<?php if(isset($password)){ echo $password; }  ?>">
+                  <input type="password" name="mdpconnect" id="mdpconnect"class="form-control"value="<?php if(isset($mdpconnect)){ echo $mdpconnect; }  ?>">
                </div>
-               <div class="form-group form-check">
-                  <input type="checkbox" name="checkbox" id="checkbox" class="form-check-input mt-3"
-                  id="checkbox">
-                  <label class="form-check-label "for="checkbox">Rappelez moi!!</label>
-               </div>
-   
-               <button class="btn btn-class"name="submit"type="submit">Connexion</button> <buttton class="btn btn-success"> <a href="accueil.php" class="text-decoration-none text-white">Retour </a></buttton><br>
-             <?php
-               if(isset($erreur)){
-                  echo '<font color="red">'.$erreur."</font>";
-               }
-
-            ?>
+               <button class="btn btn-class"name="formconnect"type="submit">Connexion</button> <buttton class="btn btn-success"> <a href="accueil.php" class="text-decoration-none text-white">Retour </a></buttton><br>
+             
             </form>
          </div>
       </div>
