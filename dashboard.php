@@ -2,24 +2,7 @@
 session_start();
 require 'database.php';
 
-if(isset($_POST['ajouter'])){
-    $etudiant = htmlspecialchars($_POST['etudiant']);
-    (int)$tel = htmlspecialchars($_POST['tel']);
-    $email = htmlspecialchars($_POST['email']);
-    $sex = htmlspecialchars($_POST['sex']);
-    $fil = htmlspecialchars($_POST['filiere']);
-    (int)$montant = htmlspecialchars($_POST['montant']);
-    $date = htmlspecialchars($_POST['date']);
-    $state = htmlspecialchars($_POST['state']);
-      if(!empty($_POST['etudiant']) && !empty($_POST['tel']) && !empty($_POST['sex']) && !empty($_POST['filiere']) && !empty($_POST['montant']) &&
-      !empty($_POST['date']) && !empty($_POST['state'])){
-             
-      }else{
-         $error = "Veuillez remplir tous les champs";
-      }
 
-
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,7 +28,7 @@ if(isset($_POST['ajouter'])){
               <img src="images/CFPCanadienne.png" alt=""style="width: 120px;">
               <div class="media-body">
                   <h4 class="mx-3">APP</h4>
-                  <P class="font-weight-normal text-muted mb-0 mx-3">Gestion Paie Scolarite(GPS)</P>
+                  <P class="font-weight-normal text-muted mb-0 mx-3">Gestion Paie Scolarite(GPSC)</P>
               </div>
            </div>
        </div>
@@ -57,6 +40,12 @@ if(isset($_POST['ajouter'])){
             <a href="#" class="nav-link text-dark bg-light">
                 <i class="fa fa-tachometer mr-3 text-primary fa-fw"></i>
                 Dashboard
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link text-dark">
+                <i class="fas fa-file mr-3 text-primary fa-fw"></i>
+                Montant par filiere
             </a>
         </li>
         <li class="nav-item">
@@ -148,102 +137,9 @@ if(isset($_POST['ajouter'])){
         ?>
        
           <section class="container py-5 me-3">
-
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Nouvel Etudiant</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                    <?php
-                        if(isset($error)){
-                            ?>
-                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                <strong><?= $error;  ?></strong>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                            <?php
-                            
-                        }
-
-                        ?>
-                       <form action="" method="post"id="formCreate">
-                           <div class="form-floating mb-3">
-                            <input type="text" name="etudiant" id="etudiant"class="form-control">
-                            <label for="etudiant">Nom de l'etudiant</label>
-                           </div>
-                           <div class="form-floating mb-3">
-                            <input type="text" name="tel" id="tel"class="form-control">
-                            <label for="etudiant">NumeroTel</label>
-                           </div>
-                           <div class="form-floating mb-3">
-                            <input type="email" name="email" id="email"class="form-control">
-                            <label for="etudiant">Email</label>
-                           </div>
-                           <div class="form-floating mb-3">
-                            <input type="text" name="sex" id="sex"class="form-control">
-                            <label for="etudiant">Sex</label>
-                           </div>
-                           <div class="form-floating mb-3">
-                                    <select class="form-select"id="filiere"aria-label="filiere"name="filiere">
-                                        <?php
-                                             $sql = "SELECT * FROM filliere ORDER BY id";
-                                             $req = $dbd->query($sql);
-                                             $filieres = $req->fetchAll();
-                                        ?>
-                                        <?php foreach($filieres as $filiere):
-                                            echo '<option value="' . $filiere['id'] . '">' . $filiere['nom'] . '</option>';                           
-                                         endforeach;
-                                         ?>
-                                    </select>
-                                    <label for="etudiant">Filiere</label>
-                                </div>
-                         <div class="row g-2">
-                            <div class="col-md">
-                                <div class="form-floating mb-3">
-                                    <input type="text" name="montant" id="montant"class="form-control">
-                                    <label for="etudiant">Montant</label>
-                                </div>
-                              </div>
-                              
-                              <div class="col-md">
-                                <div class="form-floating mb-3">
-                                    <input type="date" name="date" id="date"class="form-control">
-                                    <label for="etudiant">Date de versement</label>
-                                </div>
-                              </div>
-                              <div class="col-md">
-                                <div class="form-floating mb-3">
-                                    <select class="form-select"id="state"aria-label="state"name="state">
-                                    <?php
-                                             $sql = "SELECT * FROM statut ORDER BY id";
-                                             $stat = $dbd->query($sql);
-                                             $statuts = $stat->fetchAll();
-                                        ?>
-                                        <?php foreach($statuts as $statut):
-                                            echo '<option value="' . $statut['id'] . '">' . $statut['nom'] . '</option>';                           
-                                         endforeach;
-                                         ?>
-                                    </select>
-                                    <label for="etudiant">Statut</label>
-                                </div>
-                              </div>
-                         </div>
-                      
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                        <button type="submit" class="btn btn-primary"name="ajouter"id="insert">Ajouter <i class="fas fa-plus"></i></button>
-                    </div>
-                    </div>
-                </div>
-            </div>
-        </form>   
             <div class="row">
                 <div class="col-lg-8 col-sm mb-5 mx-auto">
-                    <h1 class="fs-4 text-center lead text-info fw-bold"> GESTION PAIE DE LA SCOLARITE(GPS)</h1>
+                    <h1 class="fs-4 text-center lead text-info fw-bold"> GESTION PAIE DE LA SCOLARITE(GPSC)</h1>
                 </div>
             </div>
             <div class="dropdown-divider border-danger"></div>
@@ -253,10 +149,9 @@ if(isset($_POST['ajouter'])){
                 </div>
                 <div class="col-md-6">
                     <div class="d-flex justify-content-end">
-                    <button class="btn btn-primary btn-sm me-3"data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-folder-plus"></i>
+                    <a class="btn btn-primary btn-sm me-3" href="ajouter-etudiant.php"> <i class="fas fa-folder-plus"></i>
                             Ajouter un etudiant
-                    </button>
-                        <a href="#" class="btn btn-success btn-sm"id="export"><i class="fas fa-table"></i> Imprimer</a>
+                    </a>
                     </div>
                 </div>
             </div>

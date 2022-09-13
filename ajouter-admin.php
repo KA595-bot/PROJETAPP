@@ -13,7 +13,7 @@ if(isset($_POST['inscription'])){
           $pseudolength = strlen($pseudo);
           if($pseudolength <= 15){
               if($email == $email2){
-                if(filter_var($email, FILTER_VALIDATE_EMAIL)){
+                if(preg_match("#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $_POST['email'])){
                     $reqmail = $dbd->prepare("SELECT * FROM administrateur WHERE email= ?");
                     $reqmail->execute(array($email));
                     $mailexist = $reqmail->rowCount();
